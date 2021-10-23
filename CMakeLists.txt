@@ -11,6 +11,8 @@ project(asm-dom-cmake
 # If needed, in release mode, use emscripten optimizations flags.
 include(cmake/release-mode.cmake)
 
+string(APPEND CMAKE_CXX_FLAGS " -s ASSERTIONS=1")
+
 # Install gccx if needed. Defines the gccx(..) function to transpile cpx to cpp.
 include(cmake/gccx.cmake)
 
@@ -19,8 +21,9 @@ include(cmake/asm-dom.cmake)
 
 gccx(src/main.cpx)
 add_executable(main src/main.cpp)
-set_property(TARGET main PROPERTY CXX_STANDARD 11)
+set_property(TARGET main PROPERTY CXX_STANDARD 17)
 target_link_libraries(main PRIVATE asm-dom)
+target_include_directories(main PRIVATE src)
 
 # Copy the index.html file into the build directory
 configure_file(
