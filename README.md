@@ -5,6 +5,37 @@ Thanks to [asm-dom-cmake](https://github.com/ArthurSonzogni/asm-dom-cmake), we h
 Also thanks to [asm-dom](https://github.com/mbasso/asm-dom) and 
 [gccx](https://github.com/mbasso/gccx) (JSX like syntax for C++), they are the most important infra tools.
 
+# Example - simple click counter increment
+
+```c++
+#include <emscripten/val.h>
+#include <functional>
+#include <string>
+#include "reactdom.hpp"
+
+auto app() {
+  static reactdom::State<int> counter;
+  return (<div>
+    <div>{counter}</div>
+    <a onclick={[](emscripten::val){
+      counter = counter + 1;
+      return true;
+    }}>increase</a>
+  </div>);
+}
+
+
+int main() {
+  // Initialize asm-dom.
+  asmdom::init(reactdom::config());
+  // Replace <div id="root"/> by our virtual dom.
+  auto root = reactdom::document.getElementById("root");
+
+  asmdom::patch(root, app());
+  return 0;
+};
+```
+
 # Motivation
 
 We want to bring the reactjs-like state pattern to asm-dom/gccx to make C++ frontend programming easier to maintain and also, replace the stupid **setState** to operator= overlading.
