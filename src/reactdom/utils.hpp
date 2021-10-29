@@ -1,7 +1,7 @@
 #pragma once
 #include <emscripten/val.h>
 #include <emscripten.h>
-namespace cppdom {
+namespace reactdom {
 
 struct {
   emscripten::val getElementById(const std::string& id) {
@@ -27,17 +27,27 @@ private:
   }
 } console;
 
-template<class T>
+template<class T, bool need_delete>
 void invoke_functor(void* arg) {
-  T& obj = *(T*)arg;
-  obj();
+  T& functor = *(T*)arg;
+  functor();
+  if constexpr(need_delete) {
+    delete (T*)arg;
+  }
 }
 
 template<class Func>
-auto async(Func& f) {
+auto async(Func&& f) {
+  void* arg = nullptr;
+  constexpr bool need_heap = std::is_rvalue_reference_v<Func&&>;
+  if constexpr(!need_heap) {
+    arg = &f;
+  } else {
+    arg = new Func(std::move(f));
+  }
   emscripten_async_call(
-    invoke_functor<Func>,
-    (void*)&f,
+    invoke_functor<std::decay_t<Func>, need_heap>,
+    arg,
     0
   );
 }

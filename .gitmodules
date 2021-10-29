@@ -1,0 +1,3 @@
+[submodule "lib/gccx"]
+	path = lib/gccx
+	url = https://github.com/CHChang810716/gccx.git
