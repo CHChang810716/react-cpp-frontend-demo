@@ -4,7 +4,7 @@
 
 # gccx target is completed whenever the "gccx" command is available.
 if (NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/node_modules/.bin/gccx)
-  if(WIN32)
+  if(CMAKE_HOST_WIN32)
     execute_process(COMMAND cmd /c "npm install ${CMAKE_SOURCE_DIR}/lib/gccx")
   else()
     execute_process(COMMAND npm install ${CMAKE_SOURCE_DIR}/lib/gccx)
@@ -27,7 +27,9 @@ function(gccx source)
   get_filename_component(src_dir  ${CMAKE_CURRENT_SOURCE_DIR}/${source} DIRECTORY)
   get_filename_component(gen_dir  ${CMAKE_CURRENT_BINARY_DIR}/${source} DIRECTORY)
 
-  file(MAKE_DIRECTORY ${gen_dir})
+  if(NOT EXISTS ${gen_dir})
+    file(MAKE_DIRECTORY ${gen_dir})
+  endif()
 
   add_custom_command(
     OUTPUT
