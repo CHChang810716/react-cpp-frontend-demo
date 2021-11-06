@@ -3,6 +3,8 @@
 #include "reactdom/state.hpp"
 #include <iostream>
 #include <toHTML/toHTML.hpp>
+#include "reactdom/css.hpp"
+#include "reactdom/fetch.hpp"
 
 namespace reactdom {
 

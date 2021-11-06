@@ -6,6 +6,7 @@
 #include <functional>
 #include <string>
 #include "reactdom.hpp"
+#include <iostream>
 
 auto app() {
   static reactdom::State<int> counter;
@@ -26,6 +27,12 @@ int main() {
   auto root = reactdom::document.getElementById("root");
 
   asmdom::patch(root, app());
+  reactdom::Fetch fetch;
+  auto promise = fetch.get<std::string>("/style.css.json");
+  std::cout << promise.await() << std::endl;
+  while(true) {
+    emscripten_sleep(1000);
+  }
   return 0;
 };
 

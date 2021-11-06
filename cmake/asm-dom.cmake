@@ -27,5 +27,7 @@ if(NOT asm-dom_POPULATED)
 
   string(APPEND CMAKE_CXX_FLAGS " -s EXTRA_EXPORTED_RUNTIME_METHODS=['UTF8ToString']")
   string(APPEND CMAKE_CXX_FLAGS " -s WASM=1 --bind")
+  string(APPEND CMAKE_CXX_FLAGS " -s FETCH=1")
+  string(APPEND CMAKE_CXX_FLAGS " -s ASYNCIFY")
 endif()
 message(STATUS "Checking for asm-dom: DONE")

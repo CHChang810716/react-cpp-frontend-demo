@@ -5,8 +5,20 @@
 # gccx target is completed whenever the "gccx" command is available.
 if (NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/node_modules/.bin/gccx)
   if(CMAKE_HOST_WIN32)
+    execute_process(COMMAND cmd /c "npm install"
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/gccx
+    )
+    execute_process(COMMAND cmd /c "npm run build"
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/gccx
+    )
     execute_process(COMMAND cmd /c "npm install ${CMAKE_SOURCE_DIR}/lib/gccx")
   else()
+    execute_process(COMMAND npm install
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/gccx
+    )
+    execute_process(COMMAND npm run build
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/gccx
+    )
     execute_process(COMMAND npm install ${CMAKE_SOURCE_DIR}/lib/gccx)
   endif()
 endif()

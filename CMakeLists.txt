@@ -28,6 +28,7 @@ add_executable(main src/main.cpp src/style.css)
 set_property(TARGET main PROPERTY CXX_STANDARD 17)
 target_link_libraries(main PRIVATE asm-dom)
 target_include_directories(main PRIVATE src)
+target_include_directories(main PRIVATE lib/include)
 add_dependencies(main style.css)
 
 # Copy the index.html file into the build directory
