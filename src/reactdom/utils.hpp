@@ -7,6 +7,9 @@ struct {
   emscripten::val getElementById(const std::string& id) {
     return get().call<emscripten::val>("getElementById", id);
   }
+  emscripten::val write(const std::string& node) {
+    return get().call<emscripten::val>("write", node);
+  }
 private:
   static emscripten::val& get() {
     static emscripten::val _res
